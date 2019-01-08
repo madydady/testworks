@@ -59,7 +59,7 @@ Request has no parameters.
 Response object is specified below
 
 	{
-    		"total": 0.75,
+		"total": 0.75,
 		"used": 0.5,
 		"free": 0.25
 	}
@@ -248,7 +248,7 @@ Request body contatins a JSON with URL to callback function (with optional autho
 			"URL": "<URL to callback function>",
 			"auth": true,
 			"login": "user",
-		"password": "pass"
+			"password": "pass"
 		{
 	}
 
