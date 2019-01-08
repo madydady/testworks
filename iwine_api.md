@@ -1,6 +1,6 @@
 # Overview
 
-The iWine is a "smart" decanter for wine. The decanter provides some usefull information about the wine stored in it. It can recognise the type of wine, measure the volume of poured wine, alcohol percentage, sweetness and the wine's current temperature. With the iWine decanter you can also heat or cold wine remotly as well as shake it to fill with air. 
+The iWine is a "smart" decanter for wine. The decanter provides some usefull information about the wine stored in it. It can identify the type of wine, measure the volume of poured wine, alcohol percentage, sweetness and the wine's current temperature. With the iWine decanter you can also heat or cold wine remotly as well as shake it to fill with air. 
 
 # iWine API
 
@@ -12,6 +12,8 @@ iWine works as an HTTP server and provides an API with the following methods:
 * (GET) winetype - returns the type of wine in the decanter;
 * (GET\POST) tempareture - returns the current wine temperature or sets the temperature to the desired degree;
 * (POST) shake - makes the decanter to shake wine and fill it with air.
+
+API also includes two callback methods to inform when the temperature reaches desired temperature and the wine is filled with air after shaking. 
 
 ## Host 
 
