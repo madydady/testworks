@@ -6,12 +6,12 @@ The iWine is a "smart" decanter for wine. The decanter provides some usefull inf
 
 iWine works as an HTTP server and provides an API with the following methods:
 
-* (GET) volume
-* (GET) alcohol
-* (GET) sugar
-* (GET) tempareture
-* (GET) winetype
-* (GET) shake
+* (GET) volume - returns the volume of the decanter; 
+* (GET) alcohol - returns the alcohol percentage of wine in the decanter;
+* (GET) sugar - returns the sweetness of wine in the decanter;
+* (GET) winetype - returns the type of wine in the decanter;
+* (GET\POST) tempareture - returns the current wine temperature or sets the temperature to the desired degree;
+* (POST) shake - makes the decanter to shake wine and fill it with air.
 
 ## Host 
 
@@ -19,19 +19,19 @@ Connected to your network iWine server works at http://iwine.com:8080.
 
 ## Authentication
 
-No authentication required
+No authentication required.
 
 ## Basic URL
 
-Basic URL for all API methods is 'http://iwine.com:8080/service/'. The endpoints for each method are described below.  
+Basic URL for all API methods is http://iwine.com:8080/service/. The endpoints for each method are described below.  
 
 ## Request parameters
 
-Most API methods work as GET-requests without parameters. Only 'temperature' and 'shake' are POST-requests with callback methods URL's passed in the request body.  
+Most API methods work as GET-requests without parameters. Only 'temperature' and 'shake' are POST-requests with callback methods URL passed in the request body.  
 
 ## Response body
 
-Every response body contatins a JSON with data returned by server. For example:
+Server returns response data in JSON format. For example:
 
     HTTP/1.1 200 OK
     Content-Type: application/json; charset=utf-8
@@ -59,11 +59,17 @@ Response object is specified below
     HTTP/1.1 200 OK
     Content-Type: application/json; charset=utf-8
     
-    {"volume":0.75}
+    {
+    	"total": 0.75,
+	"used": 0.5,
+	"free": 0.25
+    }
 
 | Name | Type | Required | Description |
 | ---- | ---- | --------- | ----------- |
-| volume | number | yes | The volume of wine (litres) currently stored in decanter |
+| total | number | yes | Total volume of the decanter (litres) |
+| used | number | yes | Volume of wine (litres) currently stored in the decanter |
+| free | number | yes | Free space (litres) available in the decanter |
 
 
 #### 404 Not available
