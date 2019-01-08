@@ -52,9 +52,13 @@ URL: http://iwine.com:8080/service/volume
 
 Request has no parameters.
 
-### Response
+### Responses
 
-#### 200 OK
+| Code | Description |
+| ---- | ----------- |
+| 200 OK | Response object as a JSON (see below) | 
+| 405 Method Not Allowed | Error in request name. Correct the URL and try again |
+| 413 Payload Too Large | The decanter is overload. Pour out some wine |
 
 Response object is specified below
 
@@ -66,16 +70,9 @@ Response object is specified below
 
 | Name | Type | Required | Description |
 | ---- | ---- | --------- | ----------- |
-| total | number | yes | Total volume of the decanter (litres) |
-| used | number | yes | Volume of wine (litres) currently stored in the decanter |
+| total | number | yes | Total available volume of the decanter (litres) |
+| used | number | yes | Volume of wine (litres) currently poured in the decanter |
 | free | number | yes | Free space (litres) available in the decanter |
-
-
-#### 404 Not available
-
-404 response code is returned when server is not available. Check your internet connection.   
-
-
 
 ## Alcohol in wine
 
@@ -87,13 +84,17 @@ URL: http://iwine.com:8080/service/alcohol
 
 Request has no parameters.
 
-### Response
+### Responses
 
-#### 200 OK
+| Code | Description |
+| ---- | ----------- |
+| 200 OK | Response object as a JSON (see below) |
+| 204 No Content | Alcohol-free liquid in decanter | 
+| 405 Method Not Allowed | Error in request name. Correct the URL and try again |
 
 Response object is specified below
 
-	{"alcohol": 11}
+	{"alcohol": 11 }
 
 | Name | Type | Required | Description |
 | ---- | ---- | --------- | ----------- |
@@ -109,9 +110,13 @@ URL: http://iwine.com:8080/service/sugar
 
 Request has no parameters.
 
-### Response
+### Responses
 
-#### 200 OK
+| Code | Description |
+| ---- | ----------- |
+| 200 OK | Response object as a JSON (see below) |
+| 204 No Content | Sugar-free liquid in decanter | 
+| 405 Method Not Allowed | Error in request name. Correct the URL and try again |
 
 Response object is specified below
 
@@ -129,15 +134,19 @@ Response object is specified below
 
 ### GET-request
 
-GET-request to the 'tempareture' endpoint returns current temperature of wine in the decanter. 
+GET-request to the 'temperature' endpoint returns current temperature of wine in the decanter. 
 
 URL: http://iwine.com:8080/service/temperature
 
 Request has no parameters.
 
-### Response
+### Responses
 
-#### 200 OK
+| Code | Description |
+| ---- | ----------- |
+| 200 OK | Response object as a JSON (see below) | 
+| 405 Method Not Allowed | Error in request name. Correct the URL and try again |
+| 503 Service Unavailable | Temperature can't be measured. Check the thermal measuring system | 
 
 Response object is specified below
 
@@ -149,19 +158,19 @@ Response object is specified below
 
 ### POST-request
 
-POST-request to the 'tempareture' endpoint with a degree number and a callback function passed in request body is used to set the wine temperature to the specified degree. Approximate time needed to reach the required temperature returns in the result body. To get informed when the temperature reaches the required value the callback request is used. Handling of such a request should be implemented at client's side. 
+POST-request to the 'tempareture' endpoint with a degree number and a callback function passed in request body is used to set the wine temperature to the specified degree (in the range -5...+20 in celsius). Approximate time needed to reach the required temperature returns in the result body. To get informed when the temperature reaches the required value the callback request is used. Handling of such a request should be implemented at client's side. 
 
 URL: http://iwine.com:8080/service/temperature
 
 #### Request body
 
-Request body contatins a JSON with required tempareture and URL to callback function (with optional authorisation parameters).
+Request body contains a JSON with required tempareture and URL to callback function (with optional authorisation parameters).
 
 	{
-		"degree":20,
+		"degree": 10,
 
 		"callback": {
-			"URL": "<URL to callback function>",
+			"webhook": "<URL to callback function>",
 			"auth": true,
 			"login": "user",
 			"password": "pass"
@@ -174,24 +183,30 @@ Request parameters are specified below
 
 | Name | Type | Required | Description |
 | ---- | ---- | --------- | ----------- |
-| degree | number | yes | Degree number (in Celcius) that the wine temperature should be brought to |
+| degree | number | yes | Degree number (in celsius) that the wine temperature should be brought to |
 | callback | object | yes | Parameters for callback request |
-| &nbsp; URL | string | yes | URL to the callback function |
+| &nbsp; webhook | string | yes | URL to the callback function |
 | &nbsp; auth | boolean | yes | true if request needs authorisation at client's side, false in another case |
 | &nbsp; login | string | no | login to authorise at clienr's side if required |
 | &nbsp; password | string | no | password to authorise at clienr's side if required |
 
-### Response
+### Responses
 
-#### 200 OK
+| Code | Description |
+| ---- | ----------- |
+| 200 OK | Response object as a JSON (see below) | 
+| 400 Bad Request | Errors in request parameters. Check that "degree" is a number and "webhook" is a valid URL. Check "login" and "password", if "auth" is set to "true" | 
+| 405 Method Not Allowed | Error in request name. Correct the URL and try again |
+| 416 Range Not Satisfiable | The specified temperature is out of range -5...+20 in celsius and can't be reached |
+| 503 Service Unavailable | Temperature can't be measured. Check the thermal measuring system | 
 
 Response object is specified below
 
-	{"apprTime": 5}
+	{"apprTime": 5 }
 
 | Name | Type | Required | Description |
 | ---- | ---- | --------- | ----------- |
-| apprTime | number | yes | Approximate time needed to set wine temperature |
+| apprTime | number | yes | Approximate time (minutes) needed to set wine temperature |
 
 Callback request will be made by iWine server when temperature reaches the desired level. 
 
@@ -215,9 +230,14 @@ A GET-request to the 'winetype' endpoint returns the type of wine (red, white, r
 
 URL: http://iwine.com:8080/service/winetype
 
-### Response
+### Responses
 
-#### 200 OK
+| Code | Description |
+| ---- | ----------- |
+| 200 OK | Response object as a JSON (see below) | 
+| 405 Method Not Allowed | Error in request name. Correct the URL and try again |
+| 409 Conflict | Type of wine is undefined | 
+| 503 Service Unavailable | Machine learning service is unavailable. Contact the developer | 
 
 Response object is specified below
 
@@ -245,7 +265,7 @@ Request body contatins a JSON with URL to callback function (with optional autho
 
 	{
 		"callback": {
-			"URL": "<URL to callback function>",
+			"webhook": "URL to callback function",
 			"auth": true,
 			"login": "user",
 			"password": "pass"
@@ -259,18 +279,23 @@ Request parameters are specified below
 | Name | Type | Required | Description |
 | ---- | ---- | --------- | ----------- |
 | callback | object | yes | Parameters for callback request |
-| &nbsp;&nbsp; URL | string | yes | URL to the callback function |
+| &nbsp;&nbsp; webhook | string | yes | URL to the callback function |
 | &nbsp;&nbsp; auth | boolean | yes | "true" if request needs authorisation at client's side, "false" in another case |
 | &nbsp;&nbsp; login | string | no | Login to authorise at clienr's side if required |
 | &nbsp;&nbsp; password | string | no | Password to authorise at clienr's side if required |
 
-### Response
+### Responses
 
-#### 200 OK
+| Code | Description |
+| ---- | ----------- |
+| 200 OK | Response object as a JSON (see below) | 
+| 405 Method Not Allowed | Error in request name. Correct the URL and try again |
+| 409 Conflict | Decanter is caped, the wine can't be filled with air. Take the cap off and try again | 
+| 503 Service Unavailable | Shaking mechanism is out of order. Contact the developer | 
 
 Response object is specified below
 
-	{"apprTime": 5}
+	{"apprTime": 5 }
 
 | Name | Type | Required | Description |
 | ---- | ---- | --------- | ----------- |
