@@ -58,14 +58,11 @@ Request has no parameters.
 
 Response object is specified below
 
-    HTTP/1.1 200 OK
-    Content-Type: application/json; charset=utf-8
-    
-    {
-    	"total": 0.75,
-	"used": 0.5,
-	"free": 0.25
-    }
+	{
+    		"total": 0.75,
+		"used": 0.5,
+		"free": 0.25
+	}
 
 | Name | Type | Required | Description |
 | ---- | ---- | --------- | ----------- |
@@ -96,10 +93,7 @@ Request has no parameters.
 
 Response object is specified below
 
-    HTTP/1.1 200 OK
-    Content-Type: application/json; charset=utf-8
-    
-    {"alcohol": 11}
+	{"alcohol": 11}
 
 | Name | Type | Required | Description |
 | ---- | ---- | --------- | ----------- |
@@ -121,13 +115,10 @@ Request has no parameters.
 
 Response object is specified below
 
-    HTTP/1.1 200 OK
-    Content-Type: application/json; charset=utf-8
-    
-    {
-    	"sugar":0.25,
-	"sort":"dry"
-    }
+	{
+		"sugar":0.25
+		"sort":"dry"
+	}
 
 | Name | Type | Required | Description |
 | ---- | ---- | --------- | ----------- |
@@ -150,10 +141,7 @@ Request has no parameters.
 
 Response object is specified below
 
-    HTTP/1.1 200 OK
-    Content-Type: application/json; charset=utf-8
-    
-    {"temp": 10 }
+	{"temp": 10 }
 
 | Name | Type | Required | Description |
 | ---- | ---- | --------- | ----------- |
@@ -169,19 +157,16 @@ URL: http://iwine.com:8080/service/temperature
 
 Request body contatins a JSON with required tempareture and URL to callback function (with optional authorisation parameters).
 
-    HTTP/1.1 http://iwine.com:8080/service/temperature
-    Content-Type: application/json; charset=utf-8
-    
-    {
-	"degree":20,
-
-	"callback": {
-		"URL": "<URL to callback function>",
-		"auth": true,
-		"login": "user",
-		"password": "pass"
 	{
-    }
+		"degree":20,
+
+		"callback": {
+			"URL": "<URL to callback function>",
+			"auth": true,
+			"login": "user",
+			"password": "pass"
+		{
+	}
 
 #### Parameters
 
@@ -202,10 +187,7 @@ Request parameters are specified below
 
 Response object is specified below
 
-    HTTP/1.1 200 OK
-    Content-Type: application/json; charset=utf-8
-    
-    {"apprTime": 5}
+	{"apprTime": 5}
 
 | Name | Type | Required | Description |
 | ---- | ---- | --------- | ----------- |
@@ -215,9 +197,6 @@ Callback request will be made by iWine server when temperature reaches the desir
 
 Request body contatins a JSON with operation status.
 
-	HTTP/1.1 <URL to callback function>
-	Content-Type: application/json; charset=utf-8
-	
 	{
 		"status": "OK",
 		"message": "The wine temperature is now N degrees",
@@ -242,13 +221,10 @@ URL: http://iwine.com:8080/service/winetype
 
 Response object is specified below
 
-    HTTP/1.1 200 OK
-    Content-Type: application/json; charset=utf-8
-    
-    {
-    	"type": "dry",
-    	"accuracy": 0.8
-    }
+	{
+		"type": "dry",
+		"accuracy": 0.8
+	}
 
 | Name | Type | Required | Description |
 | ---- | ---- | --------- | ----------- |
@@ -267,15 +243,12 @@ URL: http://iwine.com:8080/service/shake
 
 Request body contatins a JSON with URL to callback function (with optional authorisation parameters).
 
-    HTTP/1.1 http://iwine.com:8080/service/shake
-    Content-Type: application/json; charset=utf-8
-    
-    {
+	{
 		"callback": {
 			"URL": "<URL to callback function>",
 			"auth": true,
 			"login": "user",
-			"password": "pass"
+		"password": "pass"
 		{
 	}
 
@@ -286,10 +259,10 @@ Request parameters are specified below
 | Name | Type | Required | Description |
 | ---- | ---- | --------- | ----------- |
 | callback | object | yes | Parameters for callback request |
-| &nbsp; URL | string | yes | URL to the callback function |
-| &nbsp; auth | boolean | yes | "true" if request needs authorisation at client's side, "false" in another case |
-| &nbsp; login | string | no | Login to authorise at clienr's side if required |
-| &nbsp; password | string | no | Password to authorise at clienr's side if required |
+| &nbsp;&nbsp; URL | string | yes | URL to the callback function |
+| &nbsp;&nbsp; auth | boolean | yes | "true" if request needs authorisation at client's side, "false" in another case |
+| &nbsp;&nbsp; login | string | no | Login to authorise at clienr's side if required |
+| &nbsp;&nbsp; password | string | no | Password to authorise at clienr's side if required |
 
 ### Response
 
@@ -297,10 +270,7 @@ Request parameters are specified below
 
 Response object is specified below
 
-    HTTP/1.1 200 OK
-    Content-Type: application/json; charset=utf-8
-    
-    {"apprTime": 5}
+	{"apprTime": 5}
 
 | Name | Type | Required | Description |
 | ---- | ---- | --------- | ----------- |
@@ -310,9 +280,6 @@ Callback request will be made by iWine server when shaking is over and the wine 
 
 Request body contatins a JSON with operation status.
 
-	HTTP/1.1 <URL to callback function>
-	Content-Type: application/json; charset=utf-8
-	
 	{
 		"status": "OK",
 		"message": "The wine is filled with air"
