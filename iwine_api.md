@@ -29,7 +29,7 @@ Basic URL for all API methods is http://iwine.com:8080/service/. The endpoints f
 
 ## Request parameters
 
-Most API methods work as GET-requests without parameters. Only 'temperature' and 'shake' are POST-requests with callback methods URL passed in the request body.  
+Most API methods work as GET-requests without parameters. Only 'temperature' and 'shake' methods have POST-requests with callback methods URL passed in the request body.  
 
 ## Response body
 
