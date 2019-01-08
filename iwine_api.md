@@ -13,7 +13,7 @@ iWine works as an HTTP server and provides an API with the following methods:
 * (GET\POST) tempareture - returns the current wine temperature or sets the temperature to the desired degree;
 * (POST) shake - makes the decanter to shake wine and fill it with air.
 
-API also includes two callback methods to inform when the temperature reaches desired temperature and the wine is filled with air after shaking. 
+**Note** There are also two callback requests to inform, when the wine reaches desired temperature and is filled with air after shaking. These requests are performed by iWine server as a response to *temperature* and *shake* requests. Processing of these callback requests shuold be implemented at client's side.
 
 ## Host 
 
@@ -155,7 +155,7 @@ Response object is specified below
     
     {"temp": 10 }
 
-| Name | Type | Mandatory | Description |
+| Name | Type | Required | Description |
 | ---- | ---- | --------- | ----------- |
 | temp | number | yes | The current temperature of wine (in Celcius) |
 
@@ -211,6 +211,22 @@ Response object is specified below
 | ---- | ---- | --------- | ----------- |
 | apprTime | number | yes | Approximate time needed to set wine temperature |
 
+Callback request will be made by iWine server when temperature reaches the desired level. 
+
+Request body contatins a JSON with operation status.
+
+	HTTP/1.1 <URL to callback function>
+	Content-Type: application/json; charset=utf-8
+	
+	{
+		"status": "OK",
+		"message": "The wine temperature is now N degrees",
+	}
+
+| Name | Type | Required | Description |
+| ---- | ---- | --------- | ----------- |
+| satus | string | yes | "OK" if the wine temperature reaches the desired, "Fail" if not - details in *message* field |
+| temperature | string | yes | Text "The wine temperature is now N degrees", where *N* is the *degree* parameter in initial request. Or error details, if the desired temperature can't be reached |
 
 ## Type of wine
 
@@ -289,3 +305,20 @@ Response object is specified below
 | Name | Type | Required | Description |
 | ---- | ---- | --------- | ----------- |
 | apprTime | number | yes | Approximate time needed to fill wine with air |
+
+Callback request will be made by iWine server when shaking is over and the wine is filled with air. 
+
+Request body contatins a JSON with operation status.
+
+	HTTP/1.1 <URL to callback function>
+	Content-Type: application/json; charset=utf-8
+	
+	{
+		"status": "OK",
+		"message": "The wine is filled with air"
+	}
+
+| Name | Type | Required | Description |
+| ---- | ---- | --------- | ----------- |
+| satus | string | yes | "OK" if the wine is successfully filled with air, "Fail" if not - details in *message* field |
+| message | string | yes | Text of message with the results of operation, or error details |
