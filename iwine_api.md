@@ -26,7 +26,7 @@ No authentication required.
 
 ## Request parameters
 
-Most API methods work as GET-requests without parameters. Only 'temperature' and 'shake' methods have POST-requests with webhooks for callback requests passed in the request body.  
+Most API methods work as GET-requests without parameters. Only *temperature* and *shake* methods have POST-requests with webhooks for callback requests passed in the request body.  
 
 ## Response body
 
@@ -46,7 +46,7 @@ Server returns response data in JSON format. For example:
 
 ### Request
 
-A GET-request to the 'volume' endpoint returns the current volume of wine stored in the decanter. 
+A GET-request to the *volume* endpoint returns the current volume of wine stored in the decanter. 
 
 URL: http://192.168.1.1:8080/service/volume
 
@@ -78,7 +78,7 @@ Response object is specified below
 
 ### Request
 
-A GET-request to the 'alcohol' endpoint returns the alcohol percentage of wine stored in the decanter.  
+A GET-request to the *alcohol* endpoint returns the alcohol percentage of wine stored in the decanter.  
 
 URL: http://192.168.1.1:8080/service/alcohol
 
@@ -104,7 +104,7 @@ Response object is specified below
 
 ### Request
 
-A GET-request to the 'sugar' endpoint returns the sweetness (gram of sugar per cubic decimeter of wine) and a sort of wine (sweet, dry, etc.) in the decanter.
+A GET-request to the *sugar* endpoint returns the sweetness (gram of sugar per cubic decimeter of wine) and a sort of wine (sweet, dry, etc.) in the decanter.
 
 URL: http://192.168.1.1:8080/service/sugar
 
@@ -134,7 +134,7 @@ Response object is specified below
 
 ### GET-request
 
-GET-request to the 'temperature' endpoint returns current temperature of wine in the decanter. 
+GET-request to the *temperature* endpoint returns current temperature of wine in the decanter. 
 
 URL: http://192.168.1.1:8080/service/temperature
 
@@ -158,7 +158,7 @@ Response object is specified below
 
 ### POST-request
 
-POST-request to the 'tempareture' endpoint with a degree number and a callback function passed in request body is used to set the wine temperature to the specified degree (in the range -5...+20 in celsius). Approximate time needed to reach the required temperature returns in the result body. To get informed when the temperature reaches the required value the callback request is used. Handling of such a request should be implemented at client's side. 
+POST-request to the *tempareture* endpoint with a degree number and a callback function passed in request body is used to set the wine temperature to the specified degree (in the range -5...+20 in celsius). Approximate time needed to reach the required temperature returns in the result body. To get informed when the temperature reaches the required value the callback request is used. Handling of such a request should be implemented at client's side. 
 
 URL: http://192.168.1.1:8080/service/temperature
 
@@ -226,7 +226,7 @@ Request body contatins a JSON with operation status.
 
 ### Request
 
-A GET-request to the 'winetype' endpoint returns the type of wine (red, white, rose, etc.) in the decanter and accuracy coefficient. The type is predicted using machine learning arlgorithms and is defined with some accuracy coefficient.
+A GET-request to the *winetype* endpoint returns the type of wine (red, white, rose, etc.) in the decanter and accuracy coefficient. The type is predicted using machine learning arlgorithms and is defined with some accuracy coefficient.
 
 URL: http://192.168.1.1:8080/service/winetype
 
@@ -257,7 +257,7 @@ When the iWine server gets shake request it begins to shake the decanter to fill
 
 ### Request
 
-POST-request to the 'shake' endpoint with 'callback' parameter in the request body
+POST-request to the *shake* endpoint with *callback* object in the request body
 
 URL: http://192.168.1.1:8080/service/shake
 
