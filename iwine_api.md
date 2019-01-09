@@ -7,7 +7,7 @@ The iWine is a "smart" decanter for wine. The decanter provides some usefull inf
 iWine works as an HTTP server and provides an API with the following methods:
 
 * (GET) volume - returns the volume of the decanter; 
-* (GET) alcohol - returns the alcohol percentage of wine in the decanter;
+* (GET) alcohol - returns the alcohol percentage for wine in the decanter;
 * (GET) sugar - returns the sweetness of wine in the decanter;
 * (GET) winetype - returns the type of wine in the decanter;
 * (GET\POST) tempareture - returns the current wine temperature or sets the temperature to the desired degree;
@@ -17,28 +17,28 @@ iWine works as an HTTP server and provides an API with the following methods:
 
 ## Host 
 
-Connected to your network iWine server works at http://iwine.com:8080. 
+Connected to your network iWine server works at http://192.168.1.1:8080.
+Basic URL for all API methods is http://192.168.1.1:8080/service/. The endpoints for each method are described below.
 
 ## Authentication
 
 No authentication required.
 
-## Basic URL
-
-Basic URL for all API methods is http://iwine.com:8080/service/. The endpoints for each method are described below.  
-
 ## Request parameters
 
-Most API methods work as GET-requests without parameters. Only 'temperature' and 'shake' methods have POST-requests with callback methods URL passed in the request body.  
+Most API methods work as GET-requests without parameters. Only 'temperature' and 'shake' methods have POST-requests with webhooks for callback requests passed in the request body.  
 
 ## Response body
 
 Server returns response data in JSON format. For example:
 
-    HTTP/1.1 200 OK
-    Content-Type: application/json; charset=utf-8
+	HTTP/1.1 200 OK
+	Content-Type: application/json; charset=utf-8
     
-    {"volume":0.75}
+	{
+		"type": "dry",
+		"accuracy": 0.8
+	}
 
 # Methods
 
@@ -48,7 +48,7 @@ Server returns response data in JSON format. For example:
 
 A GET-request to the 'volume' endpoint returns the current volume of wine stored in the decanter. 
 
-URL: http://iwine.com:8080/service/volume
+URL: http://192.168.1.1:8080/service/volume
 
 Request has no parameters.
 
@@ -80,7 +80,7 @@ Response object is specified below
 
 A GET-request to the 'alcohol' endpoint returns the alcohol percentage of wine stored in the decanter.  
 
-URL: http://iwine.com:8080/service/alcohol
+URL: http://192.168.1.1:8080/service/alcohol
 
 Request has no parameters.
 
@@ -104,9 +104,9 @@ Response object is specified below
 
 ### Request
 
-A GET-request to the 'sugar' endpoint returns the sweetness (how much shugar) and a sort of wine (sweet, dry, etc.) in the decanter.
+A GET-request to the 'sugar' endpoint returns the sweetness (gram of sugar per cubic decimeter of wine) and a sort of wine (sweet, dry, etc.) in the decanter.
 
-URL: http://iwine.com:8080/service/sugar
+URL: http://192.168.1.1:8080/service/sugar
 
 Request has no parameters.
 
@@ -136,7 +136,7 @@ Response object is specified below
 
 GET-request to the 'temperature' endpoint returns current temperature of wine in the decanter. 
 
-URL: http://iwine.com:8080/service/temperature
+URL: http://192.168.1.1:8080/service/temperature
 
 Request has no parameters.
 
@@ -154,23 +154,23 @@ Response object is specified below
 
 | Name | Type | Required | Description |
 | ---- | ---- | --------- | ----------- |
-| temp | number | yes | The current temperature of wine (in Celcius) |
+| temp | number | yes | The current temperature of wine (in celcius) |
 
 ### POST-request
 
 POST-request to the 'tempareture' endpoint with a degree number and a callback function passed in request body is used to set the wine temperature to the specified degree (in the range -5...+20 in celsius). Approximate time needed to reach the required temperature returns in the result body. To get informed when the temperature reaches the required value the callback request is used. Handling of such a request should be implemented at client's side. 
 
-URL: http://iwine.com:8080/service/temperature
+URL: http://192.168.1.1:8080/service/temperature
 
 #### Request body
 
-Request body contains a JSON with required tempareture and URL to callback function (with optional authorisation parameters).
+Request body contains a JSON with required tempareture and URL to callback function (webhook) with optional authorisation parameters, if server needs it.
 
 	{
 		"degree": 10,
 
 		"callback": {
-			"webhook": "<URL to callback function>",
+			"webhook": "URL to callback function",
 			"auth": true,
 			"login": "user",
 			"password": "pass"
@@ -206,9 +206,9 @@ Response object is specified below
 
 | Name | Type | Required | Description |
 | ---- | ---- | --------- | ----------- |
-| apprTime | number | yes | Approximate time (minutes) needed to set wine temperature |
+| apprTime | number | yes | Approximate time (in minutes) needed to set wine temperature |
 
-Callback request will be made by iWine server when temperature reaches the desired level. 
+Callback request will be executed by iWine server, when temperature reaches the desired level. 
 
 Request body contatins a JSON with operation status.
 
@@ -219,8 +219,8 @@ Request body contatins a JSON with operation status.
 
 | Name | Type | Required | Description |
 | ---- | ---- | --------- | ----------- |
-| satus | string | yes | "OK" if the wine temperature reaches the desired, "Fail" if not - details in *message* field |
-| temperature | string | yes | Text "The wine temperature is now N degrees", where *N* is the *degree* parameter in initial request. Or error details, if the desired temperature can't be reached |
+| status | string | yes | "OK" if the wine temperature reached specified degree, "Fail" if not - details in *message* field |
+| message | string | yes | Text "The wine temperature is now N degrees", where *N* is the *degree* parameter in initial request. Or error details, if the specified temperature can't be reached |
 
 ## Type of wine
 
@@ -228,7 +228,7 @@ Request body contatins a JSON with operation status.
 
 A GET-request to the 'winetype' endpoint returns the type of wine (red, white, rose, etc.) in the decanter and accuracy coefficient. The type is predicted using machine learning arlgorithms and is defined with some accuracy coefficient.
 
-URL: http://iwine.com:8080/service/winetype
+URL: http://192.168.1.1:8080/service/winetype
 
 ### Responses
 
@@ -237,7 +237,7 @@ URL: http://iwine.com:8080/service/winetype
 | 200 OK | Response object as a JSON (see below) | 
 | 405 Method Not Allowed | Error in request name. Correct the URL and try again |
 | 409 Conflict | Type of wine is undefined | 
-| 503 Service Unavailable | Machine learning service is unavailable. Contact the developer | 
+| 503 Service Unavailable | Service is unavailable. Contact the developer | 
 
 Response object is specified below
 
@@ -259,9 +259,9 @@ When the iWine server gets shake request it begins to shake the decanter to fill
 
 POST-request to the 'shake' endpoint with 'callback' parameter in the request body
 
-URL: http://iwine.com:8080/service/shake
+URL: http://192.168.1.1:8080/service/shake
 
-Request body contatins a JSON with URL to callback function (with optional authorisation parameters).
+Request body contatins a JSON with URL to callback function (webhook) with optional authorisation parameters, if server needs it.
 
 	{
 		"callback": {
@@ -280,7 +280,7 @@ Request parameters are specified below
 | ---- | ---- | --------- | ----------- |
 | callback | object | yes | Parameters for callback request |
 | &nbsp;&nbsp; webhook | string | yes | URL to the callback function |
-| &nbsp;&nbsp; auth | boolean | yes | "true" if request needs authorisation at client's side, "false" in another case |
+| &nbsp;&nbsp; auth | boolean | yes | "true" if request needs authorisation at client's side, "false" if not |
 | &nbsp;&nbsp; login | string | no | Login to authorise at clienr's side if required |
 | &nbsp;&nbsp; password | string | no | Password to authorise at clienr's side if required |
 
@@ -299,7 +299,7 @@ Response object is specified below
 
 | Name | Type | Required | Description |
 | ---- | ---- | --------- | ----------- |
-| apprTime | number | yes | Approximate time needed to fill wine with air |
+| apprTime | number | yes | Approximate time (in minutes) needed to fill wine with air |
 
 Callback request will be made by iWine server when shaking is over and the wine is filled with air. 
 
