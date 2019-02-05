@@ -1,6 +1,6 @@
 # Overview
 
-The iWine is a "smart" decanter for wine. The decanter provides some usefull information about the wine stored in it. It can identify the type of wine, measure the volume of poured wine, alcohol percentage, sweetness and the wine's current temperature. With the iWine decanter you can also heat or cold wine remotly as well as shake it to fill with air. 
+The iWine is a "smart" decanter for wine. The decanter provides some useful information about the wine stored in it. It can identify the type of wine, measure the volume of poured wine, alcohol percentage, sweetness and the wine's current temperature. With the iWine decanter you can also heat or cold wine remotely as well as shake it to fill with air. 
 
 # iWine API
 
@@ -10,10 +10,10 @@ iWine works as an HTTP server and provides an API with the following methods:
 * (GET) alcohol - returns the alcohol percentage for wine in the decanter;
 * (GET) sugar - returns the sweetness of wine in the decanter;
 * (GET) winetype - returns the type of wine in the decanter;
-* (GET\POST) tempareture - returns the current wine temperature or sets the temperature to the desired degree;
+* (GET\POST) temperature - returns the current wine temperature or sets the temperature to the desired degree;
 * (POST) shake - makes the decanter to shake wine and fill it with air.
 
-**Note** There are also two callback requests to inform, when the wine reaches desired temperature and is filled with air after shaking. These requests are performed by iWine server as a response to *temperature* and *shake* requests. Processing of these callback requests shuold be implemented at client's side.
+**Note** There are also two callback requests to inform, when the wine reaches desired temperature and is filled with air after shaking. These requests are performed by iWine server as a response to *temperature* and *shake* requests. Processing of these callback requests should be implemented at client's side.
 
 ## Host 
 
@@ -158,13 +158,13 @@ Response object is specified below
 
 ### POST-request
 
-POST-request to the *tempareture* endpoint with a degree number and a callback function passed in request body is used to set the wine temperature to the specified degree (in the range -5...+20 in celsius). Approximate time needed to reach the required temperature returns in the result body. To get informed when the temperature reaches the required value the callback request is used. Handling of such a request should be implemented at client's side. 
+POST-request to the *temperature* endpoint with a degree number and a callback function passed in request body is used to set the wine temperature to the specified degree (in the range -5...+20 in celsius). Approximate time needed to reach the required temperature returns in the result body. To get informed when the temperature reaches the required value the callback request is used. Handling of such a request should be implemented at client's side. 
 
 URL: http://192.168.1.1:8080/service/temperature
 
 #### Request body
 
-Request body contains a JSON with required tempareture and URL to callback function (webhook) with optional authorisation parameters, if server needs it.
+Request body contains a JSON with required temperature and URL to callback function (webhook) with optional authorisation parameters, if server needs it.
 
 	{
 		"degree": 10,
@@ -303,7 +303,7 @@ Response object is specified below
 
 Callback request will be made by iWine server when shaking is over and the wine is filled with air. 
 
-Request body contatins a JSON with operation status.
+Request body contains a JSON with operation status.
 
 	{
 		"status": "OK",
@@ -312,5 +312,5 @@ Request body contatins a JSON with operation status.
 
 | Name | Type | Required | Description |
 | ---- | ---- | --------- | ----------- |
-| satus | string | yes | "OK" if the wine is successfully filled with air, "Fail" if not - details in *message* field |
+| status | string | yes | "OK" if the wine is successfully filled with air, "Fail" if not - details in *message* field |
 | message | string | yes | Text of message with the results of operation, or error details |
