@@ -77,13 +77,14 @@
 				
 				* "couldn't save results" when LogicRunner ArtifactManager failed to register results.
 
-```
-type LogicRunner struct
-```
 
+### type LogicRunner struct
+
+```
 LogicRunner struct includes fields of different types. Some of them are initialised whith the initialisation of 
 LogicRunner object. Others are sub-components, that are external objects or interfaces and dependency injection mechanism
 is used, so that these objects instances are injected into a new LogicRunner structure each time it is initialised.
+```
 
 These sub-components are:
 
@@ -99,16 +100,18 @@ These sub-components are:
 
 Beside this, LogicRunner structure includes fields:
 
-* **Executors* type: *[core.MachineTypesLastID]core.MachineLogicExecutor*
-A list of virtual machines with their MachineLogicExecutor interfaces to implement. 
-* **machinePrefs** type: *[]core.MachineType*
-A list of virtual machines, where a new virtual machine is apended, when a LogicRunner component starts and registers its 	executor.  
-* **Cfg** type: *\*configuration.LogicRunner*
-Pointer to LogicRunner configuration structure. See configuration package for default LogicRunner configuration.
-* **state** type: *map[Ref]\*ObjectState*
-A map type value, that implements a hash table, where ObjectState is a Value and reference to it is a Key, so that if LogicRunner object exists we can validate it (for details see Go map type documentation).
-* **stateMutex** type: *sync.RWMutex*
-An RWMutex struct used to prevent LogicRunner object from mutual read\write exeption (for details see sync package documentation).  
-* **sock** type: *net.Listener*
-A network listener interface. 
+**Executors** type: *[core.MachineTypesLastID]core.MachineLogicExecutor*  
+:	A list of virtual machines with their MachineLogicExecutor interfaces to implement. 
+
+**machinePrefs** type: *[]core.MachineType*  
+:	A list of virtual machines, where a new virtual machine is apended, when a LogicRunner component starts and registers its 	executor.  
+
+* **Cfg** type: *\*configuration.LogicRunner*  
+	Pointer to LogicRunner configuration structure. See configuration package for default LogicRunner configuration.
+* **state** type: *map[Ref]\*ObjectState*  
+	A map type value, that implements a hash table, where ObjectState is a Value and reference to it is a Key, so that if LogicRunner object exists we can validate it (for details see Go map type documentation).
+* **stateMutex** type: *sync.RWMutex*  
+	An RWMutex struct used to prevent LogicRunner object from mutual read\write exeption (for details see sync package documentation).  
+* **sock** type: *net.Listener*  
+	A network listener interface.
 	
