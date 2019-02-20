@@ -34,7 +34,7 @@ and *current.Request* data to a *Request* field of the *reply.CallMethod* and re
 *reply.CallMethod*. *executeMethodCall* also deactivates contract object after executing the contract 
 and registers results of operation with ArtifactManager. Method has a receiver, that is a pointer to LogicRunner type.
 
-**Parameters**:
+**Parameters**:  
 *ctx* type: *context.Context*  
  Context type object of context package from where the currrent context data (e.g. current contract descriptors) 
  is retrieved.
@@ -43,7 +43,7 @@ and registers results of operation with ArtifactManager. Method has a receiver, 
 *m* type: *\*message.CallMethod*  
  Pointer to the message from initiating call method. 
 
-**Successful method execution:**
+**Successful method execution:**  
 return: 
 *reply.CallMethod* type:  
 CallMethod *reply* propertie with *result* and *request* fields, where *result* is a result 
@@ -52,7 +52,7 @@ of CallMethod execution, performed by LogicRunner executor and *request* is the 
 *nil* type: *error*   
 Nil error is returned for successful method execution.	
 	
-**Unsuccessful method execution:**
+**Unsuccessful method execution:**  
 return:  
 *nil*   
 Nil value is returned as a *core.Reply* for unsuccessful method results, details in *error* return value. 
@@ -75,33 +75,33 @@ is used, so that these objects instances are injected into a new LogicRunner str
 
 These sub-components are:
 
-**MessageBus**                 type: *core.MessageBus*                 
-**ContractRequester**          type: *core.ContractRequester*          
-**Ledger**                     type: *core.Ledger*                     
-**NodeNetwork**                type: *core.NodeNetwork*                
-**PlatformCryptographyScheme** type: *core.PlatformCryptographyScheme* 
-**ParcelFactory**              type: *message.ParcelFactory*           
-**PulseStorage**               type: *core.PulseStorage*               
-**ArtifactManager**            type: *core.ArtifactManager*            
-**JetCoordinator** 		 type: *core.JetCoordinator*
+*MessageBus*                 type: *core.MessageBus*                 
+*ContractRequester*          type: *core.ContractRequester*          
+*Ledger*                     type: *core.Ledger*                     
+*NodeNetwork*                type: *core.NodeNetwork*                
+*PlatformCryptographyScheme* type: *core.PlatformCryptographyScheme* 
+*ParcelFactory*              type: *message.ParcelFactory*           
+*PulseStorage*               type: *core.PulseStorage*               
+*ArtifactManager*            type: *core.ArtifactManager*            
+*JetCoordinator*             type: *core.JetCoordinator*
 
-Beside this, LogicRunner structure includes fields:
+Beside this, LogicRunner structure includes fields:  
 
-**Executors** type: *[core.MachineTypesLastID]core.MachineLogicExecutor*  
+*Executors* type: *[core.MachineTypesLastID]core.MachineLogicExecutor*  
 A list of virtual machines with their MachineLogicExecutor interfaces to implement. 
 
-**machinePrefs** type: *[]core.MachineType*  
+*machinePrefs* type: *[]core.MachineType*  
 A list of virtual machines, where a new virtual machine is apended, when a LogicRunner component starts and registers its 	executor.  
 
-**Cfg** type: *\*configuration.LogicRunner*  
+*Cfg* type: *\*configuration.LogicRunner*  
 Pointer to LogicRunner configuration structure. See configuration package for default LogicRunner configuration.
 
-**state** type: *map[Ref]\*ObjectState*  
+*state* type: *map[Ref]\*ObjectState*  
 A map type value, that implements a hash table, where ObjectState is a Value and reference to it is a Key, so that if LogicRunner object exists we can validate it (for details see Go map type documentation).
 
-**stateMutex** type: *sync.RWMutex*  
+*stateMutex* type: *sync.RWMutex*  
 An RWMutex struct used to prevent LogicRunner object from mutual read\write exeption (for details see sync package documentation).  
 
-**sock** type: *net.Listener*  
+*sock* type: *net.Listener*  
 A network listener interface.
 	
