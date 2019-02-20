@@ -4,7 +4,7 @@
 and returns error if authorization failed or nill value if not. Method has a receiver, that is a pointer to 
 LogicRunner type.
   
-**Parameters:**
+**Parameters:**  
 *ctx* type: *context.Context*  
 Context type object of context package from where the currrent role data is retrieved.
 
