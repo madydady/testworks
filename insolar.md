@@ -1,4 +1,4 @@
-# 1 func (lr *LogicRunner) CheckOurRole(ctx context.Context, msg core.Message, role core.DynamicRole) error
+### func (lr *LogicRunner) CheckOurRole(ctx context.Context, msg core.Message, role core.DynamicRole) error
 
 	*CheckOurRole* method performes authorization, checking the role retrieved from the Context against DynamicRole, 
 	and returns error if authorization failed or nill value if not. Method has a receiver, that is a pointer to 
@@ -26,7 +26,7 @@
 				where <error> is a specific error number;
 				* "can't execute this object" returns in case of unsuccessful role authorization.
 
-func (lr *LogicRunner) executeMethodCall(ctx context.Context, es *ExecutionState, m *message.CallMethod) (core.Reply, error)
+### func (lr *LogicRunner) executeMethodCall(ctx context.Context, es *ExecutionState, m *message.CallMethod) (core.Reply, error)
 	Executes the contract when some CallMethod initiates contract execution. 
 	When execution is successfuly finished *executeMethodCall* writes execution result to a *Result* field 
 	and *current.Request* data to a *Request* field of the *reply.CallMethod* and returns a pointer to the 
@@ -77,40 +77,38 @@ func (lr *LogicRunner) executeMethodCall(ctx context.Context, es *ExecutionState
 				
 				* "couldn't save results" when LogicRunner ArtifactManager failed to register results.
 
-
+```
 type LogicRunner struct
+```
 
-	LogicRunner struct includes fields of different types. Some of them are initialised whith the initialisation of 
-	LogicRunner object. Others are sub-components, that are external objects or interfaces and dependency injection mechanism
-	is used, so that these objects instances are injected into a new LogicRunner structure each time it is initialised.
+LogicRunner struct includes fields of different types. Some of them are initialised whith the initialisation of 
+LogicRunner object. Others are sub-components, that are external objects or interfaces and dependency injection mechanism
+is used, so that these objects instances are injected into a new LogicRunner structure each time it is initialised.
 
-	These sub-components are:
+These sub-components are:
 
-	* MessageBus                 type: core.MessageBus                 
-	* ContractRequester          type: core.ContractRequester          
-	* Ledger                     type: core.Ledger                     
-	* NodeNetwork                type: core.NodeNetwork                
-	* PlatformCryptographyScheme type: core.PlatformCryptographyScheme 
-	* ParcelFactory              type: message.ParcelFactory           
-	* PulseStorage               type: core.PulseStorage               
-	* ArtifactManager            type: core.ArtifactManager            
-	* JetCoordinator 			 type: core.JetCoordinator
+* **MessageBus**                 type: *core.MessageBus*                 
+* **ContractRequester**          type: *core.ContractRequester*          
+* **Ledger**                     type: *core.Ledger*                     
+* **NodeNetwork**                type: *core.NodeNetwork*                
+* **PlatformCryptographyScheme** type: *core.PlatformCryptographyScheme* 
+* **ParcelFactory**              type: *message.ParcelFactory*           
+* **PulseStorage**               type: *core.PulseStorage*               
+* **ArtifactManager**            type: *core.ArtifactManager*            
+* **JetCoordinator** 		 type: *core.JetCoordinator*
 
-	Beside this, LogicRunner structure includes fields:
+Beside this, LogicRunner structure includes fields:
 
-	* Executors type: [core.MachineTypesLastID]core.MachineLogicExecutor
-		A list of virtual machines with their MachineLogicExecutor interfaces to implement. 
-	* machinePrefs type: []core.MachineType
-		A list of virtual machines, where a new virtual machine is apended, when a LogicRunner component starts 
-		and registers its executor.  
-	* Cfg type: *configuration.LogicRunner
-		Pointer to LogicRunner configuration structure. See configuration package for default LogicRunner configuration.
-	* state type: map[Ref]*ObjectState
-		A map type value, that implements a hash table, where ObjectState is a Value and reference to it is a Key,
-		so that if LogicRunner object exists we can validate it (for details see Go map type documentation).
-	* stateMutex type: sync.RWMutex
-		An RWMutex struct used to prevent LogicRunner object from mutual read\write exeption 
-		(for details see sync package documentation).  
-	* sock type: net.Listener
-		A network listener interface. 
+* **Executors* type: *[core.MachineTypesLastID]core.MachineLogicExecutor*
+A list of virtual machines with their MachineLogicExecutor interfaces to implement. 
+* **machinePrefs** type: *[]core.MachineType*
+A list of virtual machines, where a new virtual machine is apended, when a LogicRunner component starts and registers its 	executor.  
+* **Cfg** type: *\*configuration.LogicRunner*
+Pointer to LogicRunner configuration structure. See configuration package for default LogicRunner configuration.
+* **state** type: *map[Ref]\*ObjectState*
+A map type value, that implements a hash table, where ObjectState is a Value and reference to it is a Key, so that if LogicRunner object exists we can validate it (for details see Go map type documentation).
+* **stateMutex** type: *sync.RWMutex*
+An RWMutex struct used to prevent LogicRunner object from mutual read\write exeption (for details see sync package documentation).  
+* **sock** type: *net.Listener*
+A network listener interface. 
 	
