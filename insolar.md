@@ -35,9 +35,9 @@ and registers results of operation with ArtifactManager. Method has a receiver, 
 **Parameters**:  
 *ctx* type: *context.Context*  
  Context type object of context package from where the currrent context data (e.g. current contract descriptors) 
- is retrieved.
+ is retrieved.  
 *es* type: *\*ExecutionState*  
- ExecutionState pointer for current contract object execution state.
+ ExecutionState pointer for current contract object execution state.  
 *m* type: *\*message.CallMethod*  
  Pointer to the message from initiating call method. 
 
