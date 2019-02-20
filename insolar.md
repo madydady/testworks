@@ -16,56 +16,56 @@ LogicRunner type.
   DynamicRole (see [DynamicRole] description) object of core package to get the role data, which the current role 
   will be checked against.
 
-**Successful authorization**
-	return: nil
+**Successful authorization**  
+return: *nil*
 
-**Unsuccessful authorization**
-return:
-- error type: string 
-Error message, one of:
+**Unsuccessful authorization**  
+return:  
+*error* type: string  
+Error message, one of:  
 * "authorization failed with error <error>" returns if an error occured, while authorization, 
 where <error> is a specific error number;
 * "can't execute this object" returns in case of unsuccessful role authorization.
 
-### func (lr *LogicRunner) executeMethodCall(ctx context.Context, es *ExecutionState, m *message.CallMethod) (core.Reply, error)
+### func (lr *LogicRunner) executeMethodCall(ctx context.Context, es *ExecutionState, m *message.CallMethod) (core.Reply, error)  
 Executes the contract when some CallMethod initiates contract execution. 
 When execution is successfuly finished *executeMethodCall* writes execution result to a *Result* field 
 and *current.Request* data to a *Request* field of the *reply.CallMethod* and returns a pointer to the 
 *reply.CallMethod*. *executeMethodCall* also deactivates contract object after executing the contract 
 and registers results of operation with ArtifactManager. Method has a receiver, that is a pointer to LogicRunner type.
 
-Parameters:
-- ctx type: context.Context
+**Parameters**:
+*ctx* type: *context.Context*  
  Context type object of context package from where the currrent context data (e.g. current contract descriptors) 
  is retrieved.
-- es type: *ExecutionState
+*es* type: *\*ExecutionState*  
  ExecutionState pointer for current contract object execution state.
-- m type: *message.CallMethod
+*m* type: *\*message.CallMethod*  
  Pointer to the message from initiating call method. 
 
-Successful method execution:
+**Successful method execution:**
 return: 
-- reply.CallMethod type:    
+*reply.CallMethod* type:  
 CallMethod *reply* propertie with *result* and *request* fields, where *result* is a result 
 of CallMethod execution, performed by LogicRunner executor and *request* is the pointer to 
 *current.Request*.
-- nil type: error 
-  Nil error is returned for successful method execution.	
+*nil* type: *error*   
+Nil error is returned for successful method execution.	
 	
-Unsuccessful method execution:
-return:
-- nil 
-  Nil value is returned as a *core.Reply* for unsuccessful method results, details in *error* return value. 
+**Unsuccessful method execution:**
+return:  
+*nil*   
+Nil value is returned as a *core.Reply* for unsuccessful method results, details in *error* return value. 
 			
-- error type: error 
-  Appropriate error code with error message, one of:
-	* "couldn't get descriptors by object reference" in case of LogicRunner cant get object descriptors from CallMethod message; 
-	* "proxy call error: try to call method of prototype as method of another prototype" in case of method prototype cant be found in contract code;
-	* "no executor registered"	when there is no registered excutor for the method;
-	* "executor error" when executor failed to execute method;
-	* "couldn't deactivate object" when LogicRunner ArtifactManager failed to deactivate contract after method execution; 
-	* "couldn't update object" when LogicRunner ArtifactManager failed to update object state record;
-	* "couldn't save results" when LogicRunner ArtifactManager failed to register results.
+*error* type: *error*   
+Appropriate error code with error message, one of:  
+* "couldn't get descriptors by object reference" in case of LogicRunner cant get object descriptors from CallMethod message; 
+* "proxy call error: try to call method of prototype as method of another prototype" in case of method prototype cant be found in contract code;
+* "no executor registered"	when there is no registered excutor for the method;
+* "executor error" when executor failed to execute method;
+* "couldn't deactivate object" when LogicRunner ArtifactManager failed to deactivate contract after method execution; 
+* "couldn't update object" when LogicRunner ArtifactManager failed to update object state record;
+* "couldn't save results" when LogicRunner ArtifactManager failed to register results.
 
 ### type LogicRunner struct
 
