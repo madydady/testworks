@@ -5,16 +5,14 @@ and returns error if authorization failed or nill value if not. Method has a rec
 LogicRunner type.
   
 **Parameters:**
-- *ctx* type: *context.Context*  
-  Context type object of context package from where the currrent role data is retrieved.
+*ctx* type: *context.Context*  
+Context type object of context package from where the currrent role data is retrieved.
 
-- *msg* type: *core.Message*  
-  Message type object of core package used to record authorization data to default target 
-  (see [DefaultTarget] description).
+*msg* type: *core.Message*  
+Message type object of core package used to record authorization data to default target (see [DefaultTarget] description).
 
-- *role* type: *core.DynamicRole*  
-  DynamicRole (see [DynamicRole] description) object of core package to get the role data, which the current role 
-  will be checked against.
+*role* type: *core.DynamicRole*  
+DynamicRole (see [DynamicRole] description) object of core package to get the role data, which the current role will be checked against.
 
 **Successful authorization**  
 return: *nil*
@@ -44,11 +42,10 @@ and registers results of operation with ArtifactManager. Method has a receiver, 
  Pointer to the message from initiating call method. 
 
 **Successful method execution:**  
-return: 
+return:  
 *reply.CallMethod* type:  
-CallMethod *reply* propertie with *result* and *request* fields, where *result* is a result 
-of CallMethod execution, performed by LogicRunner executor and *request* is the pointer to 
-*current.Request*.
+CallMethod *reply* propertie with *result* and *request* fields, where *result* is a result of CallMethod execution, performed by LogicRunner executor and *request* is the pointer to *current.Request*.
+
 *nil* type: *error*   
 Nil error is returned for successful method execution.	
 	
