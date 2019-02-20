@@ -3,23 +3,23 @@
 *CheckOurRole* method performes authorization, checking the role retrieved from the Context against DynamicRole, 
 and returns error if authorization failed or nill value if not. Method has a receiver, that is a pointer to 
 LogicRunner type.
-
-Parameters:
-- ctx type: context.Context
+  
+**Parameters:**
+- *ctx* type: *context.Context*  
   Context type object of context package from where the currrent role data is retrieved.
 
-- msg type: core.Message
+- *msg* type: *core.Message*  
   Message type object of core package used to record authorization data to default target 
   (see [DefaultTarget] description).
 
-- role type: core.DynamicRole
+- *role* type: *core.DynamicRole*  
   DynamicRole (see [DynamicRole] description) object of core package to get the role data, which the current role 
   will be checked against.
 
-Successful authorization
-return: nil
+**Successful authorization**
+	return: nil
 
-Unsuccessful authorization
+**Unsuccessful authorization**
 return:
 - error type: string 
 Error message, one of:
