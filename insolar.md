@@ -36,13 +36,16 @@ and registers results of operation with ArtifactManager. Method has a receiver, 
 *ctx* type: *context.Context*  
  Context type object of context package from where the currrent context data (e.g. current contract descriptors) 
  is retrieved.  
+
 *es* type: *\*ExecutionState*  
  ExecutionState pointer for current contract object execution state.  
+
 *m* type: *\*message.CallMethod*  
  Pointer to the message from initiating call method. 
 
 **Successful method execution:**  
 return:  
+
 *reply.CallMethod* type:  
 CallMethod *reply* propertie with *result* and *request* fields, where *result* is a result of CallMethod execution, performed by LogicRunner executor and *request* is the pointer to *current.Request*.
 
@@ -51,6 +54,7 @@ Nil error is returned for successful method execution.
 	
 **Unsuccessful method execution:**  
 return:  
+
 *nil*   
 Nil value is returned as a *core.Reply* for unsuccessful method results, details in *error* return value. 
 			
