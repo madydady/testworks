@@ -47,7 +47,7 @@ and registers results of operation with ArtifactManager. Method has a receiver, 
 return:  
 
 *reply.CallMethod* type:  
-CallMethod *reply* propertie with *result* and *request* fields, where *result* is a result of CallMethod execution, performed by LogicRunner executor and *request* is the pointer to *current.Request*.
+CallMethod's *reply* propertie, wich has *result* and *request* fields, where *result* is a result of CallMethod execution, performed by LogicRunner executor and *request* is the pointer to *current.Request*.
 
 *nil* type: *error*   
 Nil error is returned for successful method execution.	
