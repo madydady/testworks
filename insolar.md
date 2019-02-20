@@ -1,4 +1,4 @@
-func (lr *LogicRunner) CheckOurRole(ctx context.Context, msg core.Message, role core.DynamicRole) error
+# 1 func (lr *LogicRunner) CheckOurRole(ctx context.Context, msg core.Message, role core.DynamicRole) error
 
 	*CheckOurRole* method performes authorization, checking the role retrieved from the Context against DynamicRole, 
 	and returns error if authorization failed or nill value if not. Method has a receiver, that is a pointer to 
