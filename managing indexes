@@ -1,0 +1,85 @@
+Managing indexes
+
+You index data using the OpenSearch REST API. Two APIs exist: the index API and the _bulk API.
+
+For situations in which new data arrives incrementally (for example, customer orders from a small business), you might use the index API to add documents individually as they arrive. For situations in which the flow of data is less frequent (for example, weekly updates to a marketing website), you might prefer to generate a file and send it to the _bulk API. For large numbers of documents, lumping requests together and using the _bulk API offers superior performance. If your documents are enormous, however, you might need to index them individually.
+
+When indexing documents, the document _id must be 512 bytes or less in size.
+
+Работа с индексами
+===================
+
+Для индексации данных используется OpenSearch REST API. Поддерживается два варианта использования API:
+- Индексация отдельных документов, когда новые данные добавляются инкрементно (например, это могут быть поступающие заказы от клиентов) и каждый документ добавляется в индекс отдельно по мере поступления.
+- Пакетная обработка, когда обновление данных должно происходить не так часто (например, при еженедельном обновлении маркетинговых материалов), предпочтительней будет собрать все данные в один файл и отправить его в API для пакетной обработки. Для большого количества документов объединение запросов в единый массив гораздо производительнее.
+
+Примечание. Если каждый документ большой по объему, возможно, лучшим вариантом будет отдельная индексация.
+
+Принципы индексации
+======================
+
+Перед тем, как данные будут достпны для поиска, необходимо проиндексировать их. Индексация это способ организации данных поисковыми движками для более быстрого извлечения. Структура данных, которая получается в результате такой операции называется *индекс*.
+
+Основной объект данных, которым оперирует OpenSearch API, это документ в формате JSON. Для идентификации каждого проиндексированного документа используется уникальный идентификатор. Размер иденификатора должен быть не более 512 байт.
+
+Запрос к API имеет следующий вид:
+
+PUT <index>/_doc/<id>
+{ "A JSON": "document" }
+
+PUT <index>/_doc/<id> - строка запроса, где:
+PUT - имя метода REST API (PUT - стандартное имя метода в архитектуре REST API для добавления данных, поддерживаются также методы GET, POST и др.) 
+<index> - название индекса для индексации документа
+_doc - название операции с индексом
+<id> - идентификатор документа
+
+{ "A JSON": "document" } - тело запроса в формате JSON 
+
+Запрос для пакетной обработки имеет другую структуру:
+POST _bulk
+{ "index": { "_index": "<index>", "_id": "<id>" } }
+{ "A JSON": "document" }
+
+Здесь:
+POST - имя метода REST API 
+_bulk - название операции с индексом, для пакетной обработки это всегда _bulk.
+
+Название индекса и идентификатор документа в этом случае передаются в теле запроса 
+{ "index": { "_index": "<index>", "_id": "<id>" } }
+{ "A JSON": "document" }
+
+Данные для пакетной обработки должны соответствовать определенному формату и включать символ перевода строки \n в конце каждой строки, включая поседнюю. Например:
+
+Action and metadata\n
+Optional document\n
+Action and metadata\n
+Optional document\n
+
+Передача в теле запроса документа не является обязательным, поскольу для операции удаления из индекса это не требуется. При выполнении других действий (index, create, или update) передача в запросе документа является обязательным. Если нужно, чтобы при добавлении документа, который уже был обработан ранее, такая операция сециально заканчивалась ошибкой, то следует использовать операцию create вместо операции index.    
+
+Пример выполнения пакетной индексации документов с помощью curl приведен ниже. Перейдите в папку, где хранится нужный файл и выполните команду:   
+To index bulk data using the curl command, navigate to the folder where you have your file saved and run the following command:
+
+curl -H "Content-Type: application/x-ndjson" -POST https://localhost:9200/data/_bulk -u 'admin:admin' --insecure --data-binary "@data.json"
+------------
+
+If any one of the actions in the _bulk API fail, OpenSearch continues to execute the other actions. Examine the items array in the response to figure out what went wrong. The entries in the items array are in the same order as the actions specified in the request.
+
+OpenSearch automatically creates an index when you add a document to an index that doesn’t already exist. It also automatically generates an ID if you don’t specify an ID in the request. This simple example automatically creates the movies index, indexes the document, and assigns it a unique ID:
+
+POST movies/_doc
+{ "title": "Spirited Away" }
+
+Automatic ID generation has a clear downside: because the indexing request didn’t specify a document ID, you can’t easily update the document at a later time. Also, if you run this request 10 times, OpenSearch indexes this document as 10 different documents with unique IDs. To specify an ID of 1, use the following request (note the use of PUT instead of POST):
+
+PUT movies/_doc/1
+{ "title": "Spirited Away" }
+
+Because you must specify an ID, if you run this command 10 times, you still have just one document indexed with the _version field incremented to 10.
+
+Indexes default to one primary shard and one replica. If you want to specify non-default settings, create the index before adding documents:
+
+PUT more-movies
+{ "settings": { "number_of_shards": 6, "number_of_replicas": 2 } }
+
+N
